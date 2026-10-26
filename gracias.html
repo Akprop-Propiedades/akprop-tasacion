@@ -264,6 +264,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   }
 
+  // ChatGPT Ads: emitir el lead en la página de confirmación, sin redirección inmediata.
+  // La marca sólo se crea al enviar el formulario; no cuenta visitas directas ni recargas.
+  try {
+    if (sessionStorage.getItem('akprop_oai_lead_pending') === '1') {
+      sessionStorage.removeItem('akprop_oai_lead_pending');
+      if (typeof window.oaiq === 'function') {
+        window.oaiq('measure', 'lead_created', { type: 'customer_action' });
+      }
+    }
+  } catch (_) { /* no interrumpir la página de agradecimiento */ }
+
   // dataLayer — página de confirmación (conversión de Meta / Google Ads)
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
