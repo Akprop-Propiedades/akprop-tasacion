@@ -2018,8 +2018,9 @@ async function enviarLead(form, data){
     captured_phone:   normalizarTel(contacto),
   }, utms));
 
-  // 2b. OpenAI Ads (ChatGPT Ads) — conversión
-  try{ if(window.oaiq) oaiq('measure','lead_created',{ type:'customer_action' }); }catch(_){}
+  // 2b. Registrar la conversión en la página de agradecimiento.
+  // Evita perder el evento por la redirección inmediata.
+  try{ sessionStorage.setItem('akprop_oai_lead_pending', '1'); }catch(_){}
 
   // 3. Gracias — el nombre viaja por sessionStorage, NO por la URL
   //    (no metemos datos personales en la query: van a parar a GA4/Ads)
